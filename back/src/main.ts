@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
+import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 
 import { AppModule } from './app.module';
@@ -7,8 +8,9 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
+  app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:5173'],
     methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
     credentials: true,
     allowedHeaders:

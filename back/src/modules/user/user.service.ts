@@ -1,12 +1,6 @@
-// import { ComputeManagementClient } from '@azure/arm-compute';
-// import { NetworkManagementClient } from '@azure/arm-network';
-// import { ResourceManagementClient } from '@azure/arm-resources';
-// import { StorageManagementClient } from '@azure/arm-storage';
-// import { DefaultAzureCredential } from '@azure/identity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-// import { util } from 'util';
 
 import { User } from '../../models';
 
@@ -17,9 +11,32 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(username: string): Promise<void> {
+  async getUserPassword(password: string): Promise<boolean> {
+    return this.userRepository.findOne({ where: { password } }) ? true : false;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+  async getUsername(id: number): Promise<string> {
+    const user = await this.userRepository.findOne({ where: { id: id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user.username;
+  }
+
+  async createUser(
+    username: string,
+    email: string,
+    password: string,
+    role: number,
+  ): Promise<void> {
     const newUser = {
       username: username,
+      email: email,
+      password: password,
+      role: role,
     };
 
     await this.userRepository.save(newUser);

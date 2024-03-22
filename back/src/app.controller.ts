@@ -11,8 +11,13 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('azure')
-  getAzure(): Promise<string> {
+  @Get('azureStart')
+  getAzureStart(): Promise<string> {
+    return this.appService.getAzure();
+  }
+
+  @Get('azureDelete')
+  getAzureDelete(): Promise<string> {
     return this.appService.getAzure();
   }
 }
