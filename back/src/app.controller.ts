@@ -10,4 +10,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('azure')
+  getAzure(): Promise<string> {
+    return this.appService.getAzure();
+  }
 }
